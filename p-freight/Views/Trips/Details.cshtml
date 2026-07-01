@@ -1,0 +1,113 @@
+@model p_freight.Models.Trip
+
+@{
+    ViewData["Title"] = "Live Tracking";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Live Map -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm p-0 overflow-hidden position-relative" style="height: 600px;">
+                <div id="map" class="h-100 w-100"></div>
+                
+                <!-- Overlay Info -->
+                <div class="position-absolute bottom-0 start-0 m-3 p-3 card shadow-sm border-0 bg-white" style="z-index: 1000; width: 300px;">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="spinner-grow spinner-grow-sm text-primary me-2" role="status"></div>
+                        <span class="text-dark small fw-bold">LIVE TRACKING ACTIVE</span>
+                    </div>
+                    <div class="text-muted small">Current Location</div>
+                    <div id="last-location" class="text-dark fw-bold">Fetching...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trip Context -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm p-4 h-100">
+                <h3 class="fw-bold text-dark mb-4">Shipment #@Model.Id.Substring(0, 8).ToUpper()</h3>
+                
+                <div class="mb-4">
+                    <div class="text-muted small text-uppercase fw-bold mb-2">Cargo</div>
+                    <div class="text-dark">@Model.Load?.CargoType — @Model.Load?.Weight tons</div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="text-muted small text-uppercase fw-bold mb-2">Truck</div>
+                    <div class="text-dark">@Model.Truck?.RegistrationNumber (@Model.Truck?.TruckType)</div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="text-muted small text-uppercase fw-bold mb-2">Driver</div>
+                    <div class="text-dark d-flex align-items-center">
+                        <i class="bi bi-person-circle me-2"></i> @Model.Driver?.UserName
+                    </div>
+                </div>
+
+                <hr class="border-secondary my-4" />
+
+                <div class="mb-4">
+                    <div class="text-muted small text-uppercase fw-bold mb-2">Progress Status</div>
+                    <div class="progress bg-light mb-2" style="height: 10px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 45%;"></div>
+                    </div>
+                    <div class="text-dark small fw-bold">@Model.Status</div>
+                </div>
+
+                <div class="mt-auto">
+                    <button class="btn btn-outline-secondary w-100 mb-2">Contact Driver</button>
+                    <button class="btn btn-primary w-100">View Invoices</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([@Model.Load?.PickupLat ?? -17.82, @Model.Load?.PickupLng ?? 31.05], 13);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var pickup = [@Model.Load?.PickupLat ?? -17.82, @Model.Load?.PickupLng ?? 31.05];
+        var dropoff = [@Model.Load?.DropoffLat ?? -17.86, @Model.Load?.DropoffLng ?? 31.08];
+
+        L.marker(pickup).addTo(map).bindPopup('Pickup Location');
+        L.marker(dropoff).addTo(map).bindPopup('Destination');
+
+        // Draw intended route
+        var polyline = L.polyline([pickup, dropoff], {color: 'gray', dashArray: '5, 10'}).addTo(map);
+        
+        // Truck Icon
+        var truckIcon = L.divIcon({
+            html: '<i class="bi bi-truck-flatbed text-primary" style="font-size: 24px;"></i>',
+            className: 'truck-marker',
+            iconSize: [24, 24]
+        });
+
+        var truckMarker = L.marker(pickup, {icon: truckIcon}).addTo(map);
+
+        // Simulation for demonstration
+        function simulateMovement() {
+            var progress = 0;
+            setInterval(() => {
+                progress += 0.01;
+                if (progress > 1) progress = 0;
+                
+                var currentLat = pickup[0] + (dropoff[0] - pickup[0]) * progress;
+                var currentLng = pickup[1] + (dropoff[1] - pickup[1]) * progress;
+                
+                truckMarker.setLatLng([currentLat, currentLng]);
+                document.getElementById('last-location').innerText = currentLat.toFixed(4) + ", " + currentLng.toFixed(4);
+            }, 3000);
+        }
+
+        simulateMovement();
+    </script>
+}

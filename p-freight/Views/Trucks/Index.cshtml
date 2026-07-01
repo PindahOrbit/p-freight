@@ -1,0 +1,64 @@
+@model IEnumerable<p_freight.Models.Truck>
+
+@{
+    ViewData["Title"] = "Fleet Management";
+}
+
+<div class="container py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h1 class="display-5 fw-bold text-dark mb-1">Fleet Management</h1>
+            <p class="text-muted">Track and manage your 1-ton to 18-wheeler trucks across the SADC region.</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary d-flex align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-truck me-2" viewBox="0 0 16 16">
+              <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+            </svg>
+            Add New Truck
+        </a>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var item in Model) {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card shadow-sm p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="badge bg-primary text-white text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">
+                            @item.TruckType
+                        </div>
+                        <div class="text-muted small">
+                            @if(item.IsVerified == true) {
+                                <span class="text-success"><i class="bi bi-check-circle-fill"></i> Verified</span>
+                            } else {
+                                <span class="text-warning">Pending Verification</span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <h3 class="h2 fw-bold text-dark mb-2">@item.RegistrationNumber</h3>
+                    <p class="text-muted small mb-4">
+                        <i class="bi bi-geo-alt"></i> Zimbabwe
+                    </p>
+
+                    <div class="card shadow-sm p-3 mb-4 bg-light border-0">
+                        <div class="row text-center">
+                            <div class="col">
+                                <div class="text-muted small text-uppercase">Capacity</div>
+                                <div class="fw-bold">@item.CapacityWeight tons</div>
+                            </div>
+                            <div class="col border-start border-secondary">
+                                <div class="text-muted small text-uppercase">Trips</div>
+                                <div class="fw-bold">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-auto">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary flex-grow-1">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary flex-grow-1">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

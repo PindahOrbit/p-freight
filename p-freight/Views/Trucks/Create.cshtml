@@ -1,0 +1,60 @@
+@model p_freight.Models.Truck
+
+@{
+    ViewData["Title"] = "Register Truck";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                <h2 class="fw-bold mb-1">Register New Vehicle</h2>
+                <p class="text-muted mb-4">Add a truck to your fleet for cross-border logistics.</p>
+                
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="RegistrationNumber" class="form-label small text-uppercase fw-bold">Registration Number</label>
+                            <input asp-for="RegistrationNumber" class="form-control" placeholder="e.g. ABC 1234" />
+                            <span asp-validation-for="RegistrationNumber" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="TruckType" class="form-label small text-uppercase fw-bold">Truck Category</label>
+                            <select asp-for="TruckType" class="form-select">
+                                <option value="">-- Select --</option>
+                                <option value="1-ton Pickup">1-ton Pickup</option>
+                                <option value="3-ton Truck">3-ton Truck</option>
+                                <option value="10-ton Rigid">10-ton Rigid</option>
+                                <option value="30-ton Stake">30-ton Stake</option>
+                                <option value="18-Wheel Hauler">18-Wheel Hauler</option>
+                            </select>
+                            <span asp-validation-for="TruckType" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CapacityWeight" class="form-label small text-uppercase fw-bold">Max Capacity (Tons)</label>
+                            <input asp-for="CapacityWeight" class="form-control" type="number" step="0.1" />
+                            <span asp-validation-for="CapacityWeight" class="text-danger small"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary py-2">Register Truck</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

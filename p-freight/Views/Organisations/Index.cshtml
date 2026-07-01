@@ -1,0 +1,56 @@
+@model IEnumerable<p_freight.Models.Organisation>
+
+@{
+    ViewData["Title"] = "Organisations";
+}
+
+<div class="container py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h1 class="display-5 fw-bold text-dark mb-1">Organisations</h1>
+            <p class="text-muted">Manage logistics tenants and cross-border partners.</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary d-flex align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg me-2" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+            </svg>
+            Create New
+        </a>
+    </div>
+
+    <div class="card card-body shadow-sm">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>Created</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td class="fw-semibold text-dark">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Country)</span>
+                            </td>
+                            <td class="text-muted">
+                                @item.CreatedAt?.ToString("MMM dd, yyyy")
+                            </td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary border-0">Edit</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary border-0">Details</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

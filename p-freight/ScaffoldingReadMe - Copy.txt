@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext name="freightConn" Microsoft.EntityFrameworkCore.SqlServer -context FreightDbContext -ContextDir Data  -outputdir Models -DataAnnotations -force 

@@ -1,0 +1,66 @@
+@model IEnumerable<p_freight.Models.Load>
+
+@{
+    ViewData["Title"] = "Load Marketplace";
+}
+
+<div class="container py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h1 class="display-5 fw-bold text-dark mb-1">Load Marketplace</h1>
+            <p class="text-muted">Explore and bid on available freight across the region.</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary d-flex align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-seam me-2" viewBox="0 0 16 16">
+              <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.747-6.5 2.6v7.453l4.75-1.9a.5.5 0 0 0 .25-.433V4.286zm-10 7.453V7.147L1.5 5.853v6.711a.5.5 0 0 0 .25.433l4.75 1.9z"/>
+            </svg>
+            Post a Load
+        </a>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var item in Model) {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card shadow-sm p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="badge bg-secondary text-uppercase" style="font-size: 0.7rem;">
+                            @item.CargoType
+                        </div>
+                        <div class="text-muted small">
+                            @if(item.Status == "PENDING") {
+                                <span class="badge bg-success-subtle text-success">Open for Bidding</span>
+                            } else {
+                                <span class="badge bg-light text-dark">@item.Status</span>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="bg-primary rounded-circle me-2" style="width: 10px; height: 10px;"></div>
+                            <span class="text-dark fw-semibold">@item.PickupAddress</span>
+                        </div>
+                        <div class="border-start border-secondary ms-1 ps-4 py-2 text-muted small">
+                            <i class="bi bi-arrow-down"></i>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-info rounded-circle me-2" style="width: 10px; height: 10px;"></div>
+                            <span class="text-dark fw-semibold">@item.DropoffAddress</span>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm p-3 mb-4 bg-light border-0">
+                        <div class="text-center">
+                            <div class="text-muted small text-uppercase">Total Weight</div>
+                            <div class="fw-bold fs-5">@item.Weight Tons</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary w-100">View & Place Bid</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,8 +1,84 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-lg-8">
+            <h1 class="display-3 fw-bold text-dark mb-2">Freight Operating System</h1>
+            <p class="text-muted fs-5">Real-time truck logistics and cross-border negotiation for the SADC region.</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card shadow-sm p-4 border-0">
+                <div class="text-muted small text-uppercase fw-bold mb-1">Active Trips</div>
+                <div class="display-6 fw-bold text-dark">12</div>
+                <div class="progress mt-3 bg-light" style="height: 4px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm p-4 border-0">
+                <div class="text-muted small text-uppercase fw-bold mb-1">Total Fleet</div>
+                <div class="display-6 fw-bold text-dark">48</div>
+                <div class="text-success small mt-2"><i class="bi bi-caret-up-fill"></i> 4 new today</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm p-4 border-0">
+                <div class="text-muted small text-uppercase fw-bold mb-1">Open Loads</div>
+                <div class="display-6 fw-bold text-dark">256</div>
+                <div class="text-primary small mt-2">Bidding active</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm p-4 border-0">
+                <div class="text-muted small text-uppercase fw-bold mb-1">Revenue</div>
+                <div class="display-6 fw-bold text-dark">$14.2k</div>
+                <div class="text-muted small mt-2">This month</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Areas -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card card-body shadow-sm h-100">
+                <h3 class="text-dark fw-bold mb-3">Load Marketplace</h3>
+                <p class="text-muted mb-4">Drivers and owners can negotiate freight prices directly with customers. Browse available loads and place bids globally.</p>
+                <div class="d-flex gap-3">
+                    <a asp-controller="Loads" asp-action="Index" class="btn btn-primary px-4">Browse Loads</a>
+                    <a asp-controller="Loads" asp-action="Create" class="btn btn-outline-secondary px-4">Post Freight</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-body shadow-sm h-100">
+                <h3 class="text-dark fw-bold mb-3">Fleet Management</h3>
+                <p class="text-muted mb-4">Manage your 1-ton to 18-wheeler fleet. Track registrations, verify documents, and assign drivers to cross-border routes.</p>
+                <div class="d-flex gap-3">
+                    <a asp-controller="Trucks" asp-action="Index" class="btn btn-primary px-4">My Fleet</a>
+                    <a asp-controller="Organisations" asp-action="Index" class="btn btn-outline-secondary px-4">Partners</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Map Preview Area -->
+    <div class="card card-body shadow-sm p-4 overflow-hidden mb-4">
+        <div class="position-absolute top-0 end-0 m-4 badge bg-success p-2 px-3" style="z-index: 10;">
+            <i class="bi bi-broadcast"></i> SADC LIVE
+        </div>
+        <div class="p-5 bg-light rounded border d-flex align-items-center justify-content-center text-muted">
+             <div class="text-center">
+                 <i class="bi bi-map display-4 mb-3 d-block"></i>
+                 <p>Marketplace Visualisation Loading...</p>
+                 <a asp-controller="Trips" asp-action="Index" class="btn btn-sm btn-outline-secondary">Open Logistics Overview</a>
+             </div>
+        </div>
+    </div>
 </div>

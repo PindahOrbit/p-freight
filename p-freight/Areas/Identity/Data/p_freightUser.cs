@@ -9,5 +9,6 @@ namespace p_freight.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the p_freightUser class
 public class p_freightUser : IdentityUser
 {
+    public string? OrganisationId { get; set; }
 }
 
